@@ -1,6 +1,6 @@
 package ar.edu.utn.dds.k3003.app;
 
-import ar.edu.utn.dds.k3003.clients.ViandasProxy;
+import ar.edu.utn.dds.k3003.clients.HeladerasProxy;
 
 import ar.edu.utn.dds.k3003.controller.ViandaController;
 import ar.edu.utn.dds.k3003.facades.dtos.Constants;
@@ -21,19 +21,15 @@ public class WebApp {
 
     public static void main(String[] args) {
         var env = System.getenv();
+
         var objectMapper = createObjectMapper();
         var fachada = new Fachada();
 
-        fachada.setHeladerasProxy(new HeladeraProxy(objectMapper));
+        fachada.setHeladerasProxy(new HeladerasProxy(objectMapper));
 
-        Integer port = Integer.parseInt(
-                System.getProperty("port", "8080"));
+        Integer port = Integer.parseInt(System.getProperty("port", "8080"));
 
-        var app = Javalin.create(config -> {
-            config.jsonMapper(new JavalinJackson().updateMapper(mapper -> {
-                configureObjectMapper(mapper);
-            }));
-        }).start(port);
+        var app = Javalin.create().start(port);
 
         var viandaController = new ViandaController(fachada);
 
@@ -47,7 +43,7 @@ public class WebApp {
         // evaluar vencimiento vianda por qr
         app.get("/viandas/{qr}/vencida",viandaController::estaVencida);
         // Modificar heladera de una vianda por QR
-        app.patch("/viandas/{qrVianda",viandaController::modificarHeladeraVianda);
+        app.patch("/viandas/{qrVianda}",viandaController::modificarHeladeraVianda);
     }
 
 

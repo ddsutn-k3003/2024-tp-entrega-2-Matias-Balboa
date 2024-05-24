@@ -18,7 +18,7 @@ public class Fachada implements ar.edu.utn.dds.k3003.facades.FachadaViandas {
     private final ViandaMapper viandaMapper;
     private final ViandaRepository viandaRepository;
     private FachadaHeladeras fachadaHeladeras;
-    private Fachada(){
+    public Fachada(){
         this.viandaMapper = new ViandaMapper();
         this.viandaRepository = new ViandaRepository();
     }
